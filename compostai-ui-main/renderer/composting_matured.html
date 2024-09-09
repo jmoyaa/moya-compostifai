@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    
+    
+    <style>
+
+        @font-face {
+            font-family: 'Open Sans Bold';
+            src: url('./fonts/OpenSans-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+            body {
+                background-color: #8C52FF;
+                margin: 0;
+                font-family: 'Arial', sans-serif;
+                color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding-bottom: 50px;
+}
+
+            .back-btn {
+                margin: 1vh 5vw; 
+                width: 150px;
+                margin-left: auto; 
+                margin-right: 20px;
+            }
+
+            p {
+                font-family: 'Open Sans Bold', sans-serif;
+                color: white;
+                font-size: 3em;
+                position: absolute;
+                top: 75vh;
+                left: 10vw;
+                z-index: 1000;
+                transform-origin: left top; 
+                letter-spacing: 0.1em;
+}
+
+            
+
+        #state {
+            font-family: 'Open Sans Bold', sans-serif;
+            word-spacing: 20vw; 
+        }
+
+        .navbar {
+            display: flex;
+            background-color: #C1FF72;
+            width: 100%;
+            height: 9vh;
+            padding: 10px;
+            text-align: center;
+            position: fixed; 
+            top: 0; 
+            z-index: 1000;
+            justify-content: space-between;
+            align-items: center; 
+}
+
+
+        #logo-small {
+            width: 15vw;
+            height: 9vh; 
+            margin-left: 2vw;
+            margin-top: 2vh;
+        }
+    
+        #landing-page-container {
+            display: flex;
+            justify-content: space-between; 
+            align-items: flex-start; 
+            margin-top: 10vh;
+            padding: 0 5vw; 
+}
+
+
+        .result-container {
+            margin: 0 0 200vh 5%; 
+            background-color: #C1FF72;
+            border-radius: 20px;
+            color: #8C52FF;
+            width: 120vw; 
+            max-width: 800px; 
+            padding: 20px; 
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        .progress-meter {
+            margin: 20vh 0 20px 5%; 
+        }
+
+        .result-container h1, .result-container h5 {
+            margin: 10px 0; 
+            line-height: 1.2;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative; 
+            margin: 20px 0; 
+        }
+
+        button {
+            padding: 1vh 1vh;
+            margin: 1vh;
+            font-size: 1vw; 
+            background-color: #8C52FF;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 2em;
+            cursor: pointer;
+            height: 5vh; 
+            width: 10vw; 
+            font-family: 'Open Sans Bold', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ffffff; 
+            color: #8C52FF; 
+            border: 2px solid #8C52FF; 
+        }
+
+        footer {
+            background-color: #C1FF72;
+            text-align: center;
+            color: #8C52FF;
+            font-weight: bold;
+            font-size: 1.4em;
+            padding: 3vh;
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
+            position: fixed;
+           
+            bottom: 0;
+        }
+        
+
+        .progress-container {
+            
+            max-width: 40vw;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 70px;
+        }
+
+        progress {
+            width: 40vw;
+            height: 60px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #C1FF72;
+            border-radius: 50px;
+        }
+
+        progress::-webkit-progress-bar {
+            background-color: white;
+            border-radius: 50px;
+        }
+
+        progress::-webkit-progress-value {
+            background-image: linear-gradient(to right, #C1FF72 50%, #C1FF72 50%, #C1FF72);
+            border-radius: 50px;
+        }
+
+        #collect-btn {
+            background-color: #C1FF72;
+            color: #8C52FF;
+            height: 8vh;
+            width: 20vw !important; 
+            font-family: 'Open Sans Bold', sans-serif;
+            transition: background-color 1.0s ease;
+            font-size: 1.2rem;
+        }
+
+
+        #stop-btn {
+                background-color:rgb(243, 144, 144);
+                font-family: 'Open Sans Bold', sans-serif;
+                transition: background-color 1.0s ease;
+            }
+
+        #collect-btn:hover {
+            background-color: #ffffff;
+            color: #8C52FF;
+            border: 0.2em solid #8C52FF; 
+        }
+
+        #stop-btn:hover {
+            background-color: #ffffff;
+            color: #8C52FF;
+            border: 0.2em solid #8C52FF;
+        }
+
+        .outline-text {
+        color: transparent;
+        padding: 1%;
+        font-size: 4.5rem;
+        border-radius: 5px;
+        text-shadow: 0 0 0 #ffffff, -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+        }
+
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #8C52FF;
+            margin: 15% auto;
+            padding: 20px;
+            border: 3px solid #FFFFFF;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            position: relative; 
+            border-radius: 10px;
+        }
+
+        .modal-message {
+            margin-bottom: 10px;
+        }
+
+    
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            background-color: #C1FF72;
+            color: #8C52FF;
+            border: none;
+            border-radius: 2em;
+            cursor: pointer;
+            font-family: 'Open Sans Bold', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-buttons button:hover {
+            background-color: #ffffff;
+            color: #8C52FF;
+            border: 2px solid #8C52FF;
+        }
+
+        @media screen and (max-width: 600px) {
+            #landing-page-container {
+                flex-direction: column;
+                margin-top: 5vh; 
+            }
+
+            
+
+            .progress-meter {
+                margin: 10vh 0 5vh 0;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="navbar" id="landing-page-navbar">
+        <img id="logo-small" src="./templates/compostifai-logo-small.png" alt="CompostifAI Logo">
+        <div class="button-container">
+            <button id="back-btn"> HOME</button>
+        </div>
+    </div>
+   
+    
+    <p class="outline-text" style="color:#ffffff; padding: 1%; margin: 0 auto; position: absolute; left: 0; right: 0; top: calc(9vh + 20px); text-align: center;"> MATURED COMPOST</p>
+
+
+
+    <div class="progress-meter">
+
+        
+        
+        <h2 style="color:#ffffff; font-size: 6rem; border:6px solid white; border-radius: 5px;" id="timer"></h2> 
+          
+          <div id="myModal" class="modal">
+            <div class="modal-content">
+                <h4 class="modal-message" id="modalMessage1"  style="color:#FFFFFF;">Your compost is ready!</h4>
+                <h4 class="modal-message" id="modalMessage2">Your matured compost has been processed. You can now collect your compost.</h4>
+                
+                <div class="button-container modal-buttons">
+                    <button id="okButton"  onclick="okButtonClick()">OK</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="button-container">
+            <button id="stop-btn" onclick="stopButtonClick()">STOP COMPOST</button>
+        </div>
+
+         
+    </div>
+
+      
+      <div id="stopModal" class="modal">
+        <div class="modal-content">
+            <h4 class="modal-message">Are you sure you want to stop the composting process?</h4>
+           
+            <div class="button-container modal-buttons">
+                <button id="yesButton">YES</button>
+                <button id="noButton">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-container">
+        <h1> Method: Matured Composting Process</h1>
+        <h1 style="font-size:0.7rem"> Mature  is an option that also follows 7-day composting process, but limited to aeration and rotation only. This helps your compost to mature further.</h1>
+        <h5 id="data-content" style="color: black; font-size: 1.3rem;"> </h5>
+    </div>
+    
+    <footer> COMPOSTIFAI 2024</footer>
+
+
+
+
+    <script>
+        var countDownDate = new Date();
+     countDownDate.setDate(countDownDate.getDate() + 7); // Timer set to 7 days
+        // countDownDate.setSeconds(countDownDate.getSeconds() + 10); // Timer TESTING
+
+    var x = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("timer").innerHTML = "Time remaining: " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+        if (distance <= 0) {
+            clearInterval(x);
+            document.getElementById("timer").innerHTML = "1 Week Maturation Complete";
+        
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+        }
+    }, 1000);
+
+   
+    window.onclick = function(event) {
+        var modal = document.getElementById("myModal");
+        var okButton = document.getElementById("okButton");
+        if (event.target == modal || event.target == okButton) {
+            modal.style.display = "none";
+        }
+    }
+    </script>
+
+   
+    
+
+    <script>
+        document.getElementById('back-btn').addEventListener('click', () => {
+            window.ipcRenderer.send('goToMainWindow');
+        });
+
+
+       
+    </script>
+
+   
+
+        <script>
+            
+            document.getElementById('yesButton').addEventListener('click', function(event) {
+            stopProcess();
+            event.preventDefault();
+        
+        });
+
+        async function stopProcess() {
+            try {
+                // Fetch the current process ID
+                const currentProcessResponse = await axios.get('http://localhost:3000/current_process', {
+                    headers: {
+                        'accept': 'application/json'
+                    }
+                });
+                const processId = currentProcessResponse.data.process_id;
+
+                // Send POST request to /stop endpoint with the obtained process ID
+                const stopProcessResponse = await axios.post(`http://localhost:3000/stop?process_id=${processId}`, null, {});
+                console.log('Process stopped:', stopProcessResponse.data);
+            } catch (error) {
+                console.error('Error stopping process:', error);
+            }
+        }
+
+    </script> 
+
+    <script>
+            
+        document.getElementById('okButton').addEventListener('click', function(event) {
+        stopProcess();
+        event.preventDefault();
+        window.ipcRenderer.send('closeCompostingWindow');
+    
+    });
+
+    async function stopProcess() {
+        try {
+            // Fetch the current process ID
+            const currentProcessResponse = await axios.get('http://localhost:3000/current_process', {
+                headers: {
+                    'accept': 'application/json'
+                }
+            });
+            const processId = currentProcessResponse.data.process_id;
+
+            // Send POST request to /stop endpoint with the obtained process ID
+            const stopProcessResponse = await axios.post(`http://localhost:3000/stop?process_id=${processId}`, null, {});
+            console.log('Process stopped:', stopProcessResponse.data);
+        } catch (error) {
+            console.error('Error stopping process:', error);
+        }
+    }
+
+    </script> 
+
+
+    <script>
+        
+            
+            function stopButtonClick() {
+                var modal = document.getElementById("stopModal");
+                modal.style.display = "block";
+            }
+
+        
+            window.onclick = function(event) {
+                var modal = document.getElementById("stopModal");
+                var noButton = document.getElementById("noButton");
+                if (event.target == modal || event.target == noButton) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // YES BUTTON
+       
+            document.getElementById("yesButton").addEventListener("click", function() {       
+            window.ipcRenderer.send('closeCompostingWindow');
+             });
+            // NO BUTTON
+
+
+            document.getElementById("noButton").addEventListener("click", function() {
+                var modal = document.getElementById("stopModal");
+                modal.style.display = "none"; // Close the modal
+            });
+        </script>
+
+        
+
+
+
+</body>
+</html>

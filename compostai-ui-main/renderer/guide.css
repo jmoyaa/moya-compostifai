@@ -1,0 +1,104 @@
+
+
+   
+      #slideshow {
+        width: 800px;
+        height: 400px;
+        margin-left: 100px;
+        overflow: hidden;
+        position: absolute;
+        top: 310px;        
+        right:560px;
+        border-radius: 12px;
+        border: 10px solid white;
+      
+        
+
+      }
+       
+      .slide {
+        float: left;
+        width: 800px;
+        height: 400px;
+      }
+       
+
+      .slide-wrapper {
+         
+     
+        width: calc( 800px * 7);
+       
+    
+        animation: slide 60s ease infinite;
+      }
+       
+    
+      .slide:nth-child(1) {
+        background: url(../renderer/templates/1G.png);
+        object-fit: cover;
+        width: 800px;
+        height: 400px;
+
+      }
+       
+      .slide:nth-child(2) {
+        background: url(../renderer/templates/2G.png);
+        object-fit: cover;
+        width: 800px;
+        height: 400px;
+      }
+       
+      .slide:nth-child(3) {
+        background: url(../renderer/templates/3G.png);
+        object-fit: cover;
+        width: 800px;
+        height: 400px;
+      }
+
+      .slide:nth-child(4) {
+        background: url(../renderer/templates/4G.png);
+        width: 800px;
+        height: 400px;
+        
+      }
+
+      .slide:nth-child(5) {
+        background: url(../renderer/templates/5G.png);
+        width: 800px;
+        height: 400px;
+        
+      }
+
+      .slide:nth-child(6) {
+        background: url(../renderer/templates/6G.png);
+        width: 800px;
+        height: 400px;
+        
+      }
+
+
+    
+      @keyframes slide {
+        0% {
+            margin-left: 0px;
+        }
+        16.6667% {
+            margin-left: calc(-800px * 1);
+        }
+        33.3333% {
+            margin-left: calc(-800px * 2);
+        }
+        50% {
+            margin-left: calc(-800px * 3);
+        }
+        66.6667% {
+            margin-left: calc(-800px * 4);
+        }
+        83.3333% {
+            margin-left: calc(-800px * 5);
+        }
+        100% {
+            margin-left: 0px; 
+        }
+    }
+    

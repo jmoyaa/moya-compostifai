@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompostifAI - History</title>
+
+  
+
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    
+    <style>
+        @font-face {
+            font-family: 'Open Sans Bold';
+            src: url('./fonts/OpenSans-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        body {
+            background-color: #8C52FF;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: rgb(0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            background-color: #C1FF72;
+            width: 100%;
+            height: 50px;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        #back-btn {
+                margin: 0vh 5vw; 
+                width: 150px;
+                height:50px;
+                margin-left: auto; 
+                margin-right: 20px;
+            }
+
+        #logo-small {
+            width: 200px;
+            height: 70px;
+            margin-left: 30px;
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        button {
+            padding: 7px 7px;
+            margin: 5px;
+            font-size: 1.0em;
+            background-color: #8C52FF;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 229px;
+            cursor: pointer;
+            width: 80px;
+            font-family: 'Open Sans Bold', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ffffff;
+            color: #8C52FF;
+            border: 2px solid #8C52FF;
+        }
+
+        footer {
+            background-color: #C1FF72;
+            text-align: center;
+            color: #8C52FF;
+            font-weight: bold;
+            font-size:1.2em;
+            padding: 4vh;
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .database-label-container {
+            display: flex;
+            align-items:flex-start;
+            justify-content:flex-start;
+            flex-direction: column;
+            margin-top: 0%;
+            width: 90%;
+            margin: 0% auto;
+        }
+
+        #database-label {
+            background-color: rgb(0, 0, 0);
+            color: #FFFFFF;
+            font-size: 1.0em;
+            padding: 8px;
+            width: 100%;
+            font-family: 'Open Sans Bold', sans-serif;
+            word-spacing: 4em; 
+            margin-right: 15%;
+            margin-top: 0%;
+            border-radius: 4px;
+          
+        }
+
+        .database-list-container {
+            overflow-y: auto;
+            max-height: 500px;
+            width: 100%;
+            margin: 0% auto;
+        }
+
+        .database-list {
+            background-color: #C1FF72;
+            padding: 9px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+          
+        }
+
+        .database-list-container {
+      
+        word-wrap: break-word;
+        }
+
+       
+        .database-list-container::-webkit-scrollbar {
+            width: 18px;
+        }
+
+        .database-list-container::-webkit-scrollbar-thumb {
+            background-color: #8C52FF;
+            border-radius: 1px;
+            border: 1px solid #000000;
+        }
+
+        .database-list-container::-webkit-scrollbar-track {
+            background-color: #ffffff;
+        }
+
+        ul {
+        list-style: none;
+            }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar" id="landing-page-navbar">
+        <img id="logo-small" src="./templates/compostifai-logo-small.png" alt="CompostifAI Logo">
+        <div class="button-container">
+            <button id="back-btn" onclick="backtoMainWindow()"> HOME</button>
+        </div>
+    </div>
+
+    
+    <img src="./templates/compostifai-logo.png" alt="CompostifAI Logo">
+
+    <div class="database-label-container">
+        <p id="database-label"> DATA HISTORY  </p>
+        <div class="database-list-container">
+            <div id="get-database" class="database-list">
+                <ul>
+              
+                        <P class="sensor_data"><!-- SENSOR VALUES / DATA SHOULD DISPLAY HERE  --></P>
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer> COMPOSTIFAI 2024</footer>
+
+    
+
+    <script>
+        document.getElementById('back-btn').addEventListener('click', () => {
+            window.ipcRenderer.send('goToMainWindow');
+        });
+    </script>
+
+
+
+    <!-- <script>
+        
+        
+            const currentProcessResponse = await axios.get('http://localhost:3000/current_process');
+            const processId = currentProcessResponse.data.process_id;
+
+            // Fetch historical sensor data using obtained process_id
+            const sensorDataResponse = await axios.get(`http://localhost:3000/data/history?process_id=${processId}`);
+            const sensorData = sensorDataResponse.data; // Assuming sensor data is returned directly
+
+        window.onload = function() {
+            const sensorDataQueryParam = window.localStorage.getItem('sensorData');
+            if (sensorDataQueryParam) {
+                const sensorData = JSON.parse(decodeURIComponent(sensorDataQueryParam));
+                const sensorDataContainer = document.querySelector('.sensor_data');
+
+                const labels = {
+                    'process_id': 'Batch #:',
+                    'humidity': 'Humidity:',
+                    'temperature': 'Temperature:',
+                    'ec': 'Conductivity:',
+                    'ph': 'pH:',
+                    'nitrogen': 'Nitrogen:',
+                    'phosphorus': 'Phosphorus:',
+                    'potassium': 'Potassium:',
+                    'timestamp': 'Date & Time:',
+                };
+
+                
+                sensorData.results.forEach(result => {
+                    Object.keys(result).forEach(key => {
+                        const label = labels[key] || key;
+                        const value = result[key];
+                        const listItem = document.createElement('div');
+                        listItem.innerHTML = `<strong>${label}</strong> ${value}<br>`;
+                        sensorDataContainer.appendChild(listItem);
+                    });
+                    sensorDataContainer.innerHTML += '<hr>';
+                });
+            }
+        }
+    </script> -->
+
+
+    <script>
+        window.onload = async function() {
+            try {
+                // Fetch the processId from local storage
+                const processId = localStorage.getItem('processId');
+    
+                // Fetch historical sensor data using obtained process_id
+                const sensorDataResponse = await axios.get(`http://localhost:3000/data/history?process_id=${processId}`);
+                const sensorData = sensorDataResponse.data.results; // Extracting the 'results' array from the response
+    
+                const sensorDataContainer = document.querySelector('.sensor_data');
+    
+                const labels = {
+                    'process_id': 'Batch #:',
+                    'humidity': 'Humidity:',
+                    'temperature': 'Temperature:',
+                    'ec': 'Conductivity:',
+                    'ph': 'pH:',
+                    'nitrogen': 'Nitrogen:',
+                    'phosphorus': 'Phosphorus:',
+                    'potassium': 'Potassium:',
+                    'timestamp': 'Date & Time:',
+                };
+    
+                sensorData.forEach(result => {
+                    const data = result.result; // Extracting the 'result' object from each item in the 'results' array
+                    const listItem = document.createElement('div');
+                    Object.keys(data).forEach(key => {
+                        const label = labels[key] || key;
+                        const value = data[key];
+                        listItem.innerHTML += `<strong>${label}</strong> ${value}<br>`;
+                    });
+                    listItem.innerHTML += '<hr>';
+                    sensorDataContainer.appendChild(listItem); // Append each listItem to the container
+                });
+            } catch (error) {
+                console.error('Error fetching historical sensor data:', error);
+            }
+        };
+    </script>
+    
+    
+
+
+
+
+        
+
+
+    
+</body>
+</html>

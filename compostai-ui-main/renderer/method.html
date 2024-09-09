@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+
+    <style>
+        @font-face {
+            font-family: 'Open Sans Bold';
+            src: url('./fonts/OpenSans-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Open Sans Condensed Light Medium';
+            src: url('./fonts/OpenSans-Medium.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+       
+    body {
+            background-color: #8C52FF;
+           
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            padding-bottom: 50px;
+        }
+
+  
+
+     #landing-page-container {
+            display: flex;
+            flex-direction: column;
+            
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 10vh; 
+            padding: 0 2em;
+        }
+
+    img {
+            width: 40vw; 
+            max-width: 100%;
+            height: auto; 
+            margin-right: 2em;
+        }
+
+    .button-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row; 
+        }
+    .button-group {
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        margin-right: 2em; 
+    }
+
+    button {
+            margin: 0.5vh;
+            font-size: 1.9em;
+            background-color: #C1FF72;
+            color: #8C52FF;
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            width: 10em;
+            padding: 5.5vh 5vh; 
+            font-family: 'Open Sans Bold', sans-serif;
+           
+        }
+
+    button:hover {
+            background-color: #8C52FF;  
+            color: white;
+            border: 2px solid #C1FF72;
+
+        }
+
+        #back-btn {
+    width: 100px;
+    height: 40px;
+    font-size: 20px;
+    text-align: center; 
+    padding: 5px 0; 
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
+
+
+
+    
+
+    </style>
+</head>
+<body>
+
+    <div id="landing-page-container">
+        <h1 id="choose-method">CHOOSE METHOD</h1>
+        <div class="button-container">
+            <div class="button-group">
+                <img src="./templates/standard.png" alt="standard-icon">
+                <button id="standard-btn" type="button" onclick="standardButtonClick()">STANDARD</button>
+            </div>
+            <div class="button-group">
+                <img src="./templates/mature.png" alt="matured-icon">
+                <button id="matured-btn" type="button"  onclick="maturedButtonClick()" >MATURED</button>
+            </div>
+
+            <div class="button-container">
+                <button id="back-btn">BACK</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        document.getElementById('standard-btn').addEventListener('click', async function(event) { 
+            startStandardProcess();
+            event.preventDefault();  
+        });
+    
+        async function startStandardProcess() {
+            try {
+                const startProcessResponse = await axios.post(
+                    `http://localhost:3000/start`, 
+                    {},  
+                    {
+                        headers: {
+                            'accept': 'application/json'
+                        }
+                    }
+                );
+                console.log('Standard process started:', startProcessResponse.data);
+            } catch (error) {
+                console.error('Error starting standard process:', error);
+            }
+        }
+    </script>
+    
+    
+    <script>
+        document.getElementById('matured-btn').addEventListener('click', async function(event) { 
+            startMatureProcess();
+            event.preventDefault();  
+        });
+    
+        async function startMatureProcess() {
+            try {
+                const startProcessResponse = await axios.post(
+                    `http://localhost:3000/start?is_mature_process=true`, 
+                    {},  
+                    {
+                        headers: {
+                            'accept': 'application/json'
+                        }
+                    }
+                );
+                console.log('Mature process started:', startProcessResponse.data);
+            } catch (error) {
+                console.error('Error starting mature process:', error);
+            }
+        }
+    </script>
+    
+ 
+    
+
+    <script>
+        
+        function standardButtonClick() {
+            window.ipcRenderer.send('standardButtonClick');
+            window.close();
+        }
+
+        function maturedButtonClick(){
+            window.ipcRenderer.send('maturedButtonClick');
+            window.close();
+        }
+
+    </script>
+
+    <script>
+        document.getElementById('back-btn').addEventListener('click', () => {
+            window.ipcRenderer.send('goToMainWindow');
+        });
+    </script>
+
+
+
+
+</body>
+</html>

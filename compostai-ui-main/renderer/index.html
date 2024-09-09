@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>CompostifAI</title>
+    
+    <style>
+        @font-face {
+            font-family: 'Open Sans Bold';
+            src: url('./fonts/OpenSans-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+          .custom-frame {
+            background-color: #8C52FF; /* Change frame color */
+            height: 30px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            /* Add any other styles for your custom frame */
+        }
+
+        body {
+            background-color: #8C52FF;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            padding-bottom: 50px;
+        }
+
+        .navbar {
+            display: flex;
+            background-color: #C1FF72;
+            width: 100%;
+            height: 8vh; 
+            padding: 1vh;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        #logo-small {
+            width: 20em; 
+            height: 7em;
+            margin-left: 1em; 
+        }
+
+        #landing-page-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 25vh; 
+            padding: 0 2em;
+        }
+
+        img {
+            width: 40vw; 
+            max-width: 100%;
+            height: auto; 
+            margin-right: 2em;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            padding: 1vh 2vh; 
+            margin: 0.5vh;
+            font-size: 1.9em;
+            background-color: #C1FF72;
+            color: #8C52FF;
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            width: 8em; 
+            font-family: 'Open Sans Bold', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #8C52FF;
+            color: white;
+            border: 2px solid #C1FF72;
+        }
+
+        #footer-message {
+            font-size: 0.8em;
+            text-align: center;
+            margin: 0 25em;
+            margin-top: 10vh; 
+            font-family: 'Open Sans Condensed Light Medium', sans-serif;
+            word-wrap:break-word;
+        }
+
+        footer {
+            background-color: #C1FF72;
+            text-align: center;
+            color: #8C52FF;
+            font-weight: bold;
+            font-size: 1.4em;
+            padding: 3.5vh;
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+        }
+
+        #guide-btn {
+            width: 5em; 
+        }
+
+        
+        @media screen and (max-width: 600px) {
+            #landing-page-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar" id="landing-page-navbar">
+        <img id="logo-small" src="./templates/compostifai-logo-small.png" alt="CompostifAI Logo">
+    </div>
+
+    <div id="landing-page-container">
+        <img src="./templates/compostifai-logo.png" alt="CompostifAI Logo">
+        <div class="button-container">
+            <button id="start-btn" onclick="startButton()" >START</button>
+            <button id="compost-btn" onclick="compostingButton()">COMPOST</button>
+            <button id="history-btn" onclick="historyButton()">HISTORY</button>
+            <button id="guide-btn" onclick="guideButton()">GUIDE</button>
+        </div>
+    </div>
+
+    <p id="footer-message">Your go-to solution for optimizing composting processes and compost soil production. COMPOSTIFAI harnesses with AI to help you determine the readiness of your compost. Experience AI-powered predictions for sustainable, nutrient-rich soil enrichment. Join us in revolutionizing eco-friendly agriculture with COMPOSTIFAI.</p>
+
+    <footer>COMPOSTIFAI 2024</footer>
+
+    
+
+    <script>
+
+        function startButton() { 
+            window.ipcRenderer.send('startButtonClick');
+        }
+  
+        </script>
+    
+        <script>
+            // Listen for IPC messages to enable/disable the Start button
+            window.ipcRenderer.on('compostingWindowStatus', (event, isMinimized) => {
+            const startButton = document.getElementById('start-btn');
+            if (isMinimized || (StandardcompostingWindow && !StandardcompostingWindow.isDestroyed()) || (MaturedcompostingWindow && !MaturedcompostingWindow.isDestroyed())) {
+                startButton.disabled = true;
+            } else {
+                startButton.disabled = false;
+            }
+        });
+
+            // Listen for IPC message indicating the composting window is closed
+            window.ipcRenderer.on('compostingWindowClosed', () => {
+                const startButton = document.getElementById('start-btn');
+                startButton.disabled = false; // Enable the Start button
+        });
+    </script>
+
+    
+    <script>
+         function compostingButton() {
+        window.ipcRenderer.send('compostingButtonClick');
+         }
+    </script>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        ipcRenderer.on('enableCompostingButton', () => {
+            const compostButton = document.getElementById('compost-btn');
+            compostButton.disabled = false;
+        });
+    </script>
+
+
+    <script>
+
+        function guideButton() {
+            window.ipcRenderer.send('guideButtonClick');
+        }
+
+        function historyButton() {
+            window.ipcRenderer.send('historyButtonClick');
+            
+        }
+
+    </script>
+
+    
+    
+
+
+</body>
+</html>

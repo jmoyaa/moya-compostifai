@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompostifAI - Guide</title>
+    <link rel="stylesheet" href="./guide.css">
+    <style>
+
+        .custom-frame {
+            -webkit-app-region: drag;
+            background-color: #8C52FF; /* Change this to your desired color */
+        }
+        @font-face {
+            font-family: 'Open Sans Bold';
+            src: url('./fonts/OpenSans-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #8C52FF;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; 
+            padding-bottom: 3em;
+        }
+
+        p {
+            font-family: 'Open Sans Bold', sans-serif;
+            color: white;
+            font-size: 3em;
+            position: absolute;
+            top: 7vh; 
+            right: 5vw; 
+            z-index: 1000;
+            margin-right: 7em; 
+        }
+
+        .guide-txt {
+            font-family: 'Open Sans Bold', sans-serif;
+            color: white;
+            font-size: 4em;
+            top: 7vh; 
+            right: 5vw; 
+            z-index: 1000;
+            margin-right: 7em; 
+        }
+
+        .navbar {
+            display: flex;
+            background-color: #C1FF72;
+            width: 100%;
+            height: 9vh;
+            padding: 1em;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #back-btn {
+                margin: 0vh 5vw; 
+                width: 150px;
+                height:50px;
+                margin-left: auto; 
+                margin-right: 20px;
+            }
+
+        #logo-small {
+            width: 15vw;
+            height: auto; 
+            margin-left: 2vw;
+            margin-top: 1vh; 
+        }
+
+       
+
+        #footer-message {
+            font-size: 0.7em; 
+            margin-top: 75vh; 
+            margin-right: 10vh;
+            max-width: 80%; 
+            font-family: 'OpenSans-Bold', sans-serif;
+           
+        }
+
+        
+        footer {
+            background-color: #C1FF72;
+            text-align: center;
+            color: #8C52FF;
+            font-weight: bold;
+            padding: 1em;
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            right: 2vw;
+            top: 1.5em;
+        }
+
+        button {
+            padding: 0.5em 1em;
+            margin-top: 0.5em;
+            font-size: 1em;
+            background-color: #8C52FF;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 2em;
+            cursor: pointer;
+            width: 6em;
+            font-family: 'Open Sans Bold', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ffffff;
+            color: #8C52FF;
+            border: 0.2em solid #8C52FF;
+        }
+
+        @media screen and (max-width: 600px) {
+            p {
+                top: 5vh;
+                right: 2%;
+            }
+
+            .button-container {
+                right: 2%;
+                top: 10vh;
+            }
+        } 
+
+        p {
+            font-size: 0.7rem;
+            line-height: 1.2;
+            font-family: 'Arial', sans-serif;
+        }
+
+        ol {
+            list-style: none;
+            counter-reset: list-counter;
+            margin-top: 720px; 
+        }
+
+        li {
+            counter-increment: list-counter;
+            margin-bottom: 5px;
+        }
+
+        li:before {
+            content: counter(list-counter) ". ";
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        #slideshow-container {
+            position: relative;
+        }
+
+        #list-container {
+            position: relative;
+            width: 90%; 
+            margin: 0 auto; 
+        } 
+    </style>
+</head>
+
+<body>
+    <div class="navbar" id="landing-page-navbar">
+        <img id="logo-small" src="./templates/compostifai-logo-small.png" alt="CompostifAI Logo">
+        <div class="button-container">
+            <button id="back-btn">BACK</button>
+        </div>
+    </div>
+    
+    <p class="guide-txt">GUIDE TO COMPOSTING</p>
+
+    <div id="slideshow">
+        <div class="slide-wrapper">
+            <div class="slide">
+                <h1 class="slide-number"></h1>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number"></h1>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number"></h1>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number"></h1>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number"></h1>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number"></h1>
+            </div>
+            <div class="slide">
+                <h1 class="slide-number"></h1>
+            </div>
+            
+        </div>
+
+      
+    </div>
+   
+        <p>
+            <ol>
+                <li>Put the CARBON materials in the shredder, and start shredding. compostifAI adheres to 22:1 ratio, 22 CARBON (browns) : 1 NITROGEN (greens). OR SIMPLY, 3KG CARBON + 4 to 5kg of NITROGEN.</li>
+                <li>MIX the shredded CARBON + unshredded NITROGEN into the shredder, and start shredding. Note: Add more carbon than nitrogen. DO NOT ADD ALL AT ONCE.</li>
+                <li>Once done, add the shredded compost into the bin. Make sure to properly close the lid of the bin before starting.</li>
+                <li>Press Start Button. Make sure you have the composting materials inside the composting bin.</li>
+                <li>Choose which Method you want to proceed. STANDARD is for RAW MATERIALS that you want to turn into compost. MATURE is for compost that has gone through compost maturity, but you want it to mature further.</li>
+                <li>Wait for the composting process to finish.</li>
+            </ol>
+        </p>
+   
+
+   
+
+    <footer>COMPOSTIFAI 2024</footer>
+    
+    <script>
+        document.getElementById('back-btn').addEventListener('click', () => {
+            window.ipcRenderer.send('goToMainWindow');
+        });
+    </script>
+</body>
+</html>
